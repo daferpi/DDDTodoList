@@ -12,5 +12,4 @@ public interface LoginUserRepository extends CrudRepository<LoginUser, Long> {
 
     LoginUser findUserByUserName(String userName);
 
-    LoginUser findUserByid(Long id);
 }

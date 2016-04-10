@@ -6,7 +6,7 @@ import javax.persistence.*;
  * Created by daferpi on 10/04/16.
  */
 @Entity
-public class LoginUser {
+public class LoginUser implements User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
