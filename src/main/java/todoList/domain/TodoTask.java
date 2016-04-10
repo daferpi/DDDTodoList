@@ -1,5 +1,7 @@
 package todoList.domain;
 
+import todoList.exceptions.TodoTaskNotFoundException;
+
 import javax.persistence.*;
 
 /**
@@ -17,18 +19,36 @@ public class TodoTask {
 
     private String description;
 
-    private boolean finished;
+    protected boolean finished;
 
     private String userName;
 
     public TodoTask() {
     }
 
-    public TodoTask(String title, String description, boolean finished, String userName) {
+    public TodoTask(String title, String description, String userName) {
         this.title = title;
         this.description = description;
-        this.finished = finished;
         this.userName = userName;
+        this.finished = false;
+    }
+
+    protected TodoTask(TodoTask originTask) throws TodoTaskNotFoundException {
+        if (originTask != null) {
+            this.id = originTask.id;
+            this.title = originTask.getTitle();
+            this.description = originTask.getDescription();
+            this.userName = originTask.getUserName();
+            this.finished = originTask.isFinished();
+        } else {
+            throw new TodoTaskNotFoundException("Todo task not found");
+        }
+
+    }
+
+    public DoneTodoTask completeTask() throws TodoTaskNotFoundException {
+        this.finished = true;
+        return  new DoneTodoTask(this);
     }
 
     public long getId() {

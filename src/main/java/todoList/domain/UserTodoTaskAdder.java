@@ -12,6 +12,6 @@ public class UserTodoTaskAdder extends LoginUser implements TodoTaskAdder {
 
     @Override
     public TodoTask addTask(String title, String description) {
-        return new TodoTask(title, description, false, getUserName());
+        return new TodoTask(title, description, getUserName());
     }
 }

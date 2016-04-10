@@ -1,13 +1,14 @@
 package todoList.infraestructure;
 
 import org.springframework.web.bind.annotation.*;
-import todoList.domain.LoginUser;
-import todoList.domain.TodoTask;
-import todoList.domain.UserTodoTaskAdder;
+import todoList.domain.*;
 import todoList.exceptions.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import todoList.exceptions.TodoTaskNotFoundException;
 import todoList.service.LoginService;
 import todoList.service.TodoTaskService;
+
+import java.util.List;
 
 /**
  * Created by daferpi on 09/04/16.
@@ -34,6 +35,21 @@ public class RestController {
     @RequestMapping(value = "/addTask", method = RequestMethod.GET)
     public TodoTask addTodoTask(@RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("title") String title, @RequestParam("description") String description)  {
         return this.todoTaskService.addTodoTask(new UserTodoTaskAdder(userName,password), title,description);
+    }
+
+    @RequestMapping(value = "/completeTask/{id}", method = RequestMethod.GET)
+    public DoneTodoTask completeTask(@PathVariable Long id) throws TodoTaskNotFoundException {
+        return this.todoTaskService.completeTask(id);
+    }
+
+    @RequestMapping(value = "/pendingTask", method = RequestMethod.GET)
+    public List<PendingTodoTask> pendingTask()  {
+        return this.todoTaskService.findPendingTask();
+    }
+
+    @RequestMapping(value = "/doneTask", method = RequestMethod.GET)
+    public List<DoneTodoTask> doneTask()  {
+        return this.todoTaskService.findDoneTask();
     }
 
 
