@@ -1,6 +1,7 @@
 package todoList.service;
 
 import todoList.domain.LoginUser;
+import todoList.domain.TodoTaskAdder;
 import todoList.exceptions.InvalidCredentialsException;
 
 /**
@@ -8,5 +9,5 @@ import todoList.exceptions.InvalidCredentialsException;
  */
 public interface LoginService {
 
-    public LoginUser validateUserCredentials(String userName, String password) throws InvalidCredentialsException;
+    public TodoTaskAdder validateUserCredentials(String userName, String password) throws InvalidCredentialsException;
 }

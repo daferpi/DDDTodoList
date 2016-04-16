@@ -3,6 +3,8 @@ package todoList.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import todoList.domain.LoginUser;
+import todoList.domain.TodoTaskAdder;
+import todoList.domain.UserTodoTaskAdder;
 import todoList.exceptions.InvalidCredentialsException;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,10 +23,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public LoginUser validateUserCredentials(String userName, String password) throws InvalidCredentialsException {
+    public TodoTaskAdder validateUserCredentials(String userName, String password) throws InvalidCredentialsException {
         LoginUser userByUserName = this.loginUserRepository.findUserByUserName(userName);
         if (userByUserName != null && userByUserName.validateCredentials(password)){
-            return  userByUserName;
+            return  new UserTodoTaskAdder(userByUserName.getUserName(), userByUserName.getPassword());
         }
         throw  new InvalidCredentialsException("Invalid Credentials");
     }

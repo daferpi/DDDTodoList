@@ -1,5 +1,6 @@
 package todoList.domain;
 
+import todoList.exceptions.RequiredDataException;
 import todoList.exceptions.TodoTaskNotFoundException;
 
 /**
@@ -7,7 +8,7 @@ import todoList.exceptions.TodoTaskNotFoundException;
  */
 public class DoneTodoTask extends TodoTask {
 
-    public DoneTodoTask(String title, String description, String userName) {
+    public DoneTodoTask(String title, String description, String userName) throws RequiredDataException {
         super(title, description, userName);
         this.finished = true;
     }

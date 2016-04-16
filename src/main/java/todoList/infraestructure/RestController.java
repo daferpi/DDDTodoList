@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import todoList.domain.*;
 import todoList.exceptions.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import todoList.exceptions.RequiredDataException;
 import todoList.exceptions.TodoTaskNotFoundException;
 import todoList.service.LoginService;
 import todoList.service.TodoTaskService;
@@ -28,13 +29,13 @@ public class RestController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public LoginUser loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password) throws InvalidCredentialsException {
+    public TodoTaskAdder loginUser(@RequestParam("userName") String userName, @RequestParam("password") String password) throws InvalidCredentialsException {
         return this.loginService.validateUserCredentials(userName,password);
     }
 
     @RequestMapping(value = "/addTask", method = RequestMethod.GET)
-    public TodoTask addTodoTask(@RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("title") String title, @RequestParam("description") String description)  {
-        return this.todoTaskService.addTodoTask(new UserTodoTaskAdder(userName,password), title,description);
+    public TodoTask addTodoTask(@RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("title") String title, @RequestParam("description") String description) throws InvalidCredentialsException, RequiredDataException {
+        return this.todoTaskService.addTodoTask(userName,password, title,description);
     }
 
     @RequestMapping(value = "/completeTask/{id}", method = RequestMethod.GET)

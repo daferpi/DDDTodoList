@@ -1,5 +1,6 @@
 package todoList.domain;
 
+import todoList.exceptions.RequiredDataException;
 import todoList.exceptions.TodoTaskNotFoundException;
 
 import javax.persistence.*;
@@ -9,6 +10,11 @@ import javax.persistence.*;
  */
 @Entity
 public class TodoTask {
+
+    private static final String TITLE_REQUIRED_ERROR = "Title is required";
+    private static final String DESCRIPTION_REQUIRED_ERROR = "Description is required";
+    private static final String USERNAME_REQUIRED_ERROR = "Username is required";
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,10 +32,25 @@ public class TodoTask {
     public TodoTask() {
     }
 
-    public TodoTask(String title, String description, String userName) {
-        this.title = title;
-        this.description = description;
-        this.userName = userName;
+    public TodoTask(String title, String description, String userName) throws RequiredDataException {
+        if (title != null) {
+            this.title = title;
+        } else {
+            throw new RequiredDataException(TITLE_REQUIRED_ERROR);
+        }
+
+        if (description != null) {
+            this.description = description;
+        } else {
+            throw new RequiredDataException(DESCRIPTION_REQUIRED_ERROR);
+        }
+
+        if (userName != null) {
+            this.userName = userName;
+        } else {
+            throw new RequiredDataException(USERNAME_REQUIRED_ERROR);
+        }
+
         this.finished = false;
     }
 
