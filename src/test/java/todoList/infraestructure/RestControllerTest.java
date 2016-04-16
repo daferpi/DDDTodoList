@@ -9,6 +9,7 @@ import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import todoList.Application;
 import todoList.domain.TodoTask;
+import todoList.domain.TodoTaskAdder;
 import todoList.exceptions.InvalidCredentialsException;
 import todoList.exceptions.RequiredDataException;
 import todoList.service.LoginService;
@@ -29,17 +30,21 @@ public class RestControllerTest {
     @Autowired
     private RestController restControllerSUT;
 
+    private String userName;
+    private String password;
+    private String title;
+    private String description;
 
     @Before
     public void setUp() {
+        userName = "abel";
+        password = "test1";
+        title = "title";
+        description = "description";
     }
 
     @Test
     public void addTodoTaskOk() throws Exception {
-        String userName = "abel";
-        String password = "test1";
-        String title = "title";
-        String description = "description";
 
         TodoTask todoTask = restControllerSUT.addTodoTask(userName, password, title, description);
 
@@ -51,20 +56,16 @@ public class RestControllerTest {
 
     @Test(expected = InvalidCredentialsException.class)
     public void addTodoTaskInvalidCredentials() throws Exception {
-        String userName = "user";
-        String password = "pass";
-        String title = "title";
-        String description = "description";
+        userName = "user";
+        password = "pass";
 
         restControllerSUT.addTodoTask(userName, password, title, description);
     }
 
     @Test(expected = InvalidCredentialsException.class)
     public void addTodoTaskUserDataNull() throws Exception {
-        String userName = null;
-        String password = null;
-        String title = "title";
-        String description = "description";
+        userName = null;
+        password = null;
 
         restControllerSUT.addTodoTask(userName, password, title, description);
 
@@ -72,10 +73,7 @@ public class RestControllerTest {
 
     @Test(expected = InvalidCredentialsException.class)
     public void addTodoTaskUserNameNull() throws Exception {
-        String userName = null;
-        String password = "test1";
-        String title = "title";
-        String description = "description";
+        userName = null;
 
         restControllerSUT.addTodoTask(userName, password, title, description);
 
@@ -83,10 +81,7 @@ public class RestControllerTest {
 
     @Test(expected = InvalidCredentialsException.class)
     public void addTodoTaskPasswordNull() throws Exception {
-        String userName = "abel";
-        String password = null;
-        String title = "title";
-        String description = "description";
+        password = null;
 
         restControllerSUT.addTodoTask(userName, password, title, description);
 
@@ -94,10 +89,8 @@ public class RestControllerTest {
 
     @Test(expected = RequiredDataException.class)
     public void addTodoTaskTaskDataNull() throws Exception {
-        String userName = "abel";
-        String password = "test1";
-        String title = null;
-        String description = null;
+        title = null;
+        description = null;
 
         restControllerSUT.addTodoTask(userName, password, title, description);
 
@@ -105,10 +98,7 @@ public class RestControllerTest {
 
     @Test(expected = RequiredDataException.class)
     public void addTodoTaskTaskTitleNull() throws Exception {
-        String userName = "abel";
-        String password = "test1";
-        String title = null;
-        String description = "description";
+        title = null;
 
         restControllerSUT.addTodoTask(userName, password, title, description);
 
@@ -116,12 +106,41 @@ public class RestControllerTest {
 
     @Test(expected = RequiredDataException.class)
     public void addTodoTaskTaskDescriptionNull() throws Exception {
-        String userName = "abel";
-        String password = "test1";
-        String title = "test";
-        String description = null;
+        description = null;
 
         restControllerSUT.addTodoTask(userName, password, title, description);
 
     }
+
+    @Test
+    public void loginUserOk() throws Exception {
+        TodoTaskAdder todoTaskAdder = restControllerSUT.loginUser(userName, password);
+
+        assertNotNull(todoTaskAdder);
+    }
+
+    @Test(expected = InvalidCredentialsException.class)
+    public void loginUserUserNameNull() throws Exception {
+        userName = null;
+
+        restControllerSUT.loginUser(userName, password);
+
+    }
+
+    @Test(expected = InvalidCredentialsException.class)
+    public void loginUserPasswordNull() throws Exception {
+        password = null;
+        restControllerSUT.loginUser(userName, password);
+
+    }
+
+    @Test(expected = InvalidCredentialsException.class)
+    public void loginUserInvalidCredentials() throws Exception {
+        userName = "user";
+        password = "password";
+        restControllerSUT.loginUser(userName, password);
+
+    }
+
+    
 }
