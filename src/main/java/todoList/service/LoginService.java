@@ -1,6 +1,5 @@
 package todoList.service;
 
-import todoList.domain.LoginUser;
 import todoList.domain.TodoTaskAdder;
 import todoList.exceptions.InvalidCredentialsException;
 

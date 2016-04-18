@@ -12,8 +12,7 @@ import todoList.domain.TodoTask;
 import todoList.domain.TodoTaskAdder;
 import todoList.exceptions.InvalidCredentialsException;
 import todoList.exceptions.RequiredDataException;
-import todoList.service.LoginService;
-import todoList.service.TodoTaskService;
+import todoList.exceptions.TodoTaskNotFoundException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -142,6 +141,35 @@ public class RestControllerTest {
 
     }
 
+    @Test
+    public void completeTaskOk() throws TodoTaskNotFoundException, RequiredDataException {
+        TodoTask todoTask = restControllerSUT.completeTask(1L, userName);
+        assertNotNull(todoTask);
+        assertThat(todoTask.getId(),is(1L));
+        assertThat(todoTask.getUserName(),is(userName));
+        assertThat(todoTask.isFinished(),is(true));
+    }
+
+    @Test(expected = TodoTaskNotFoundException.class)
+    public void completeTaskIdNotExist() throws TodoTaskNotFoundException, RequiredDataException {
+        TodoTask todoTask = restControllerSUT.completeTask(4L, userName);
+
+    }
+
+    @Test(expected = TodoTaskNotFoundException.class)
+    public void completeTaskUserNameNotExist() throws TodoTaskNotFoundException, RequiredDataException {
+        TodoTask todoTask = restControllerSUT.completeTask(1L, "Pedro");
+    }
+
+    @Test(expected = RequiredDataException.class)
+    public void completeTaskIdNull() throws TodoTaskNotFoundException, RequiredDataException {
+        TodoTask todoTask = restControllerSUT.completeTask(null, userName);
+    }
+
+    @Test(expected = RequiredDataException.class)
+    public void completeTaskUserNameNull() throws TodoTaskNotFoundException, RequiredDataException {
+        TodoTask todoTask = restControllerSUT.completeTask(1L, null);
+    }
 
 
 

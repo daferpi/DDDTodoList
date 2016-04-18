@@ -1,9 +1,14 @@
 package todoList.infraestructure;
 
-import org.springframework.web.bind.annotation.*;
-import todoList.domain.*;
-import todoList.exceptions.InvalidCredentialsException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import todoList.domain.PendingTodoTask;
+import todoList.domain.TodoTask;
+import todoList.domain.TodoTaskAdder;
+import todoList.exceptions.InvalidCredentialsException;
 import todoList.exceptions.RequiredDataException;
 import todoList.exceptions.TodoTaskNotFoundException;
 import todoList.service.LoginService;

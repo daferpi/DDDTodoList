@@ -61,7 +61,7 @@ public class TodoTaskViewRepositoryImpl implements TodoTaskViewStatusRepository 
     }
 
     @Override
-    public DoneTask findByIdUserName(Long id, String userName) throws RequiredDataException {
+    public DoneTask findByIdUserName(Long id, String userName) throws TodoTaskNotFoundException, RequiredDataException {
 
         if (id == null) {
             throw  new RequiredDataException("Todo task id is required");
@@ -78,7 +78,7 @@ public class TodoTaskViewRepositoryImpl implements TodoTaskViewStatusRepository 
             }
         }
 
-        return null;
+        throw  new TodoTaskNotFoundException("Todo task not found");
     }
 
 

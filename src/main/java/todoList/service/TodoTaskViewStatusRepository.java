@@ -4,6 +4,7 @@ import todoList.domain.DoneTask;
 import todoList.domain.PendingTodoTask;
 import todoList.domain.TodoTask;
 import todoList.exceptions.RequiredDataException;
+import todoList.exceptions.TodoTaskNotFoundException;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface TodoTaskViewStatusRepository {
     public List<PendingTodoTask> findPendingTasks(String userName) throws RequiredDataException;
     public List<TodoTask> findDoneTasks(String userName) throws RequiredDataException;
 
-    DoneTask findByIdUserName(Long id, String userName) throws RequiredDataException;
+    DoneTask findByIdUserName(Long id, String userName) throws TodoTaskNotFoundException, RequiredDataException;
 }
