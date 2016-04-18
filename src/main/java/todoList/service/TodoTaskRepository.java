@@ -11,4 +11,5 @@ import java.util.List;
 public interface TodoTaskRepository extends CrudRepository<TodoTask, Long> {
 
     List<TodoTask> findByFinished(boolean finished);
+
 }

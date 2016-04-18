@@ -33,24 +33,24 @@ public class RestController {
         return this.loginService.validateUserCredentials(userName,password);
     }
 
-    @RequestMapping(value = "/addTask", method = RequestMethod.GET)
+    @RequestMapping(value = "/addTask", method = RequestMethod.POST)
     public TodoTask addTodoTask(@RequestParam("userName") String userName, @RequestParam("password") String password, @RequestParam("title") String title, @RequestParam("description") String description) throws InvalidCredentialsException, RequiredDataException {
         return this.todoTaskService.addTodoTask(userName,password, title,description);
     }
 
-    @RequestMapping(value = "/completeTask/{id}", method = RequestMethod.GET)
-    public DoneTodoTask completeTask(@PathVariable Long id) throws TodoTaskNotFoundException {
-        return this.todoTaskService.completeTask(id);
+    @RequestMapping(value = "/completeTask/{id}", method = RequestMethod.POST)
+    public TodoTask completeTask(@PathVariable Long id, @RequestParam("userName") String userName) throws TodoTaskNotFoundException, RequiredDataException {
+        return this.todoTaskService.completeTask(id, userName);
     }
 
     @RequestMapping(value = "/pendingTask", method = RequestMethod.GET)
-    public List<PendingTodoTask> pendingTask()  {
-        return this.todoTaskService.findPendingTask();
+    public List<PendingTodoTask> pendingTask(@RequestParam("userName") String userName) throws RequiredDataException {
+        return this.todoTaskService.findPendingTask(userName);
     }
 
     @RequestMapping(value = "/doneTask", method = RequestMethod.GET)
-    public List<DoneTodoTask> doneTask()  {
-        return this.todoTaskService.findDoneTask();
+    public List<TodoTask> doneTask(@RequestParam("userName") String userName) throws RequiredDataException {
+        return this.todoTaskService.findDoneTask(userName);
     }
 
 

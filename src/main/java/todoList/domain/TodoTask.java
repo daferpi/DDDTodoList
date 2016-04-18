@@ -67,11 +67,6 @@ public class TodoTask {
 
     }
 
-    public DoneTodoTask completeTask() throws TodoTaskNotFoundException {
-        this.finished = true;
-        return  new DoneTodoTask(this);
-    }
-
     public long getId() {
         return id;
     }

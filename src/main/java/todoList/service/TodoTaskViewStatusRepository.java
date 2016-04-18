@@ -1,7 +1,9 @@
 package todoList.service;
 
-import todoList.domain.DoneTodoTask;
+import todoList.domain.DoneTask;
 import todoList.domain.PendingTodoTask;
+import todoList.domain.TodoTask;
+import todoList.exceptions.RequiredDataException;
 
 import java.util.List;
 
@@ -10,6 +12,8 @@ import java.util.List;
  */
 public interface TodoTaskViewStatusRepository {
 
-    public List<PendingTodoTask> findPendingTasks();
-    public List<DoneTodoTask> findDoneTasks();
+    public List<PendingTodoTask> findPendingTasks(String userName) throws RequiredDataException;
+    public List<TodoTask> findDoneTasks(String userName) throws RequiredDataException;
+
+    DoneTask findByIdUserName(Long id, String userName) throws RequiredDataException;
 }

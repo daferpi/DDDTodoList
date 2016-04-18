@@ -4,10 +4,7 @@ import com.sun.tools.javac.comp.Todo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import todoList.domain.DoneTodoTask;
-import todoList.domain.PendingTodoTask;
-import todoList.domain.TodoTask;
-import todoList.domain.TodoTaskAdder;
+import todoList.domain.*;
 import todoList.exceptions.InvalidCredentialsException;
 import todoList.exceptions.RequiredDataException;
 import todoList.exceptions.TodoTaskNotFoundException;
@@ -38,18 +35,17 @@ public class TodoTaskService {
         return todoTaskRepository.save(todoTask);
     }
 
-    public DoneTodoTask completeTask(long taskId) throws TodoTaskNotFoundException {
-        TodoTask todoTask =  this.todoTaskRepository.findOne(taskId);
-        DoneTodoTask doneTodoTask = todoTask.completeTask();
-        this.todoTaskRepository.save(todoTask);
-        return doneTodoTask;
+    public TodoTask completeTask(long taskId, String userName) throws TodoTaskNotFoundException, RequiredDataException {
+        DoneTask doneTask = this.todoTaskViewRepository.findByIdUserName(taskId,userName);
+        final TodoTask todoTaskComplete = doneTask.completeTask();
+        return this.todoTaskRepository.save(todoTaskComplete);
     }
 
-    public List<PendingTodoTask> findPendingTask() {
-        return this.todoTaskViewRepository.findPendingTasks();
+    public List<PendingTodoTask> findPendingTask(String userName) throws RequiredDataException {
+        return this.todoTaskViewRepository.findPendingTasks(userName);
     }
 
-    public  List<DoneTodoTask> findDoneTask() {
-        return this.todoTaskViewRepository.findDoneTasks();
+    public  List<TodoTask> findDoneTask(String userName) throws RequiredDataException {
+        return this.todoTaskViewRepository.findDoneTasks(userName);
     }
 }
